@@ -1,0 +1,166 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:BreathAnalysis.ViewModels"
+             x:Class="BreathAnalysis.Views.HomeView"
+             x:DataType="vm:HomeViewModel"
+             Background="{StaticResource PageBgBrush}">
+
+    <ScrollViewer>
+        <Grid RowDefinitions="Auto,*" Margin="16">
+
+            <!-- ── Connection card ─────────────────────────────────── -->
+            <Border Grid.Row="0" Classes="card">
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto" >
+
+                    <TextBlock Grid.Column="0"
+                               Text="Arduino Port"
+                               VerticalAlignment="Center"
+                               FontWeight="SemiBold"
+                               Margin="0,0,12,0"/>
+
+                    <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding AvailablePorts}"
+                              SelectedItem="{Binding SelectedPort}"
+                              MinHeight="44"
+                              FontSize="14"
+                              HorizontalAlignment="Stretch"/>
+
+                    <Button Grid.Column="2"
+                            Content="↻"
+                            Command="{Binding RefreshPortsCommand}"
+                            ToolTip.Tip="Refresh ports"
+                            MinHeight="44"
+                            MinWidth="44"
+                            FontSize="18"
+                            Margin="8,0,0,0"
+                            Background="{StaticResource PageBgBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            HorizontalContentAlignment="Center"/>
+
+                    <Button Grid.Column="3"
+                            Content="{Binding ConnectLabel}"
+                            Command="{Binding ToggleConnectionCommand}"
+                            Classes="primary"
+                            MinWidth="120"
+                            Margin="8,0,0,0"/>
+                </Grid>
+            </Border>
+
+            <!-- ── Main content ────────────────────────────────────── -->
+            <Grid Grid.Row="1" RowDefinitions="*,Auto">
+
+                <!-- Status / countdown display -->
+                <Border Classes="card"
+                        Margin="0,0,0,12"
+                        MinHeight="260">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="16">
+
+                        <!-- IDLE state -->
+                        <StackPanel IsVisible="{Binding IsIdle}"
+                                    HorizontalAlignment="Center"
+                                    Spacing="8">
+                            <TextBlock Text="🫁"
+                                       FontSize="72"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding StatusText}"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Center"
+                                       Foreground="#2C3E50"/>
+                            <TextBlock Text="{Binding StatusSub}"
+                                       FontSize="13"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource TextSecBrush}"/>
+                        </StackPanel>
+
+                        <!-- COUNTDOWN state -->
+                        <StackPanel IsVisible="{Binding IsCountdown}"
+                                    HorizontalAlignment="Center"
+                                    Spacing="8">
+                            <TextBlock Text="{Binding Countdown}"
+                                       FontSize="96"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource AccentBlueBrush}"/>
+                            <TextBlock Text="Get ready..."
+                                       FontSize="18"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource TextSecBrush}"/>
+                        </StackPanel>
+
+                        <!-- ANALYZING state -->
+                        <StackPanel IsVisible="{Binding IsAnalyzing}"
+                                    HorizontalAlignment="Center"
+                                    Spacing="8">
+                            <TextBlock Text="🔬"
+                                       FontSize="72"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="Analyzing..."
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource AccentBlueBrush}"/>
+                            <TextBlock Text="Breathe into the device now"
+                                       FontSize="13"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource TextSecBrush}"/>
+                        </StackPanel>
+
+                        <!-- VENTILATING state -->
+                        <StackPanel IsVisible="{Binding IsVentilating}"
+                                    HorizontalAlignment="Center"
+                                    Spacing="8">
+                            <TextBlock Text="🌀"
+                                       FontSize="72"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="Ventilating..."
+                                       FontSize="22"
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource AccentOrangeBrush}"/>
+                            <TextBlock Text="Please wait while the chamber clears"
+                                       FontSize="13"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource TextSecBrush}"/>
+                        </StackPanel>
+
+                        <!-- DONE state -->
+                        <StackPanel IsVisible="{Binding IsDone}"
+                                    HorizontalAlignment="Center"
+                                    Spacing="8">
+                            <TextBlock Text="✅"
+                                       FontSize="72"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="Analysis Complete"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource AccentGreenBrush}"/>
+                            <TextBlock Text="Report has been saved automatically"
+                                       FontSize="13"
+                                       HorizontalAlignment="Center"
+                                       Foreground="{StaticResource TextSecBrush}"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+
+                <!-- START button -->
+                <Button Grid.Row="1"
+                        Classes="success"
+                        Content="START ANALYSIS"
+                        Command="{Binding StartAnalysisCommand}"
+                        IsEnabled="{Binding CanStart}"
+                        HorizontalAlignment="Stretch"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        MinHeight="64"
+                        Margin="6,0,6,6"/>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

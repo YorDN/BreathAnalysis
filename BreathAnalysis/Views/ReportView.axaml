@@ -1,0 +1,233 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:BreathAnalysis.ViewModels"
+             x:Class="BreathAnalysis.Views.ReportView"
+             x:DataType="vm:ReportViewModel"
+             Background="{StaticResource PageBgBrush}">
+
+    <ScrollViewer>
+        <StackPanel Margin="16" Spacing="0">
+
+            <!-- ── Status card ────────────────────────────────────── -->
+            <Border Classes="card">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Report Status"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#2C3E50"/>
+
+                    <!-- Auto save path -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="AUTO-SAVE FOLDER"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                        <Border Background="{StaticResource PageBgBrush}"
+                                CornerRadius="6"
+                                Padding="10,8">
+                            <TextBlock Text="{Binding AutoSavePath}"
+                                       FontSize="12"
+                                       Foreground="#2C3E50"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Last report -->
+                    <StackPanel Spacing="4"
+                                IsVisible="{Binding HasLastReport}">
+                        <TextBlock Text="LAST GENERATED REPORT"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                        <Border Background="#EBF5FB"
+                                CornerRadius="6"
+                                Padding="10,8">
+                            <TextBlock Text="{Binding LastReportPath}"
+                                       FontSize="12"
+                                       Foreground="#2980B9"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Status message -->
+                    <TextBlock Text="{Binding StatusMessage}"
+                               FontSize="12"
+                               Foreground="{StaticResource AccentGreenBrush}"
+                               IsVisible="{Binding HasStatusMessage}"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Analysis data summary ──────────────────────────── -->
+            <Border Classes="card"
+                    IsVisible="{Binding HasAnalysisData}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Last Analysis Summary"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#2C3E50"/>
+
+                    <Grid ColumnDefinitions="*,*,*,*,*">
+                        <!-- MQ138 -->
+                        <StackPanel Grid.Column="0" Spacing="4"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="MQ-138"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding AvgMq138, StringFormat={}{0:F0}}"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#E74C3C"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="avg VOC"
+                                       FontSize="9"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- MQ7 -->
+                        <StackPanel Grid.Column="1" Spacing="4"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="MQ-7"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding AvgMq7, StringFormat={}{0:F0}}"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#E67E22"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="avg CO"
+                                       FontSize="9"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- MQ137 -->
+                        <StackPanel Grid.Column="2" Spacing="4"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="MQ-137"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding AvgMq137, StringFormat={}{0:F0}}"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#8E44AD"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="avg NH₃"
+                                       FontSize="9"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- CO2 -->
+                        <StackPanel Grid.Column="3" Spacing="4"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="CO₂"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding AvgCo2, StringFormat={}{0:F0}}"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#2980B9"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="avg ppm"
+                                       FontSize="9"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- WinPower -->
+                        <StackPanel Grid.Column="4" Spacing="4"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="WinPower"
+                                       FontSize="10"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding AvgWinPower, StringFormat={}{0:F0}}"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#27AE60"
+                                       HorizontalAlignment="Center"/>
+                            <TextBlock Text="avg raw"
+                                       FontSize="9"
+                                       Foreground="{StaticResource TextSecBrush}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Reading count -->
+                    <TextBlock
+                        Text="{Binding AnalysisReadingCount,
+                               StringFormat='Total readings captured: {0}'}"
+                        FontSize="11"
+                        Foreground="{StaticResource TextSecBrush}"
+                        HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ── No data placeholder ────────────────────────────── -->
+            <Border Classes="card"
+                    IsVisible="{Binding !HasAnalysisData}"
+                    MinHeight="120">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Spacing="8">
+                    <TextBlock Text="📋"
+                               FontSize="48"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="No analysis data yet"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource TextSecBrush}"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="Go to Home and run an analysis first"
+                               FontSize="12"
+                               Foreground="{StaticResource TextSecBrush}"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Action buttons ─────────────────────────────────── -->
+            <Border Classes="card">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Generate Report"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#2C3E50"/>
+
+                    <!-- Auto save -->
+                    <Button Classes="success"
+                            Content="Save Report Automatically"
+                            Command="{Binding AutoSaveReportCommand}"
+                            IsEnabled="{Binding HasAnalysisData}"
+                            HorizontalAlignment="Stretch"
+                            FontSize="14"/>
+
+                    <!-- Save as -->
+                    <Button Classes="primary"
+                            Content="Save Report As..."
+                            Command="{Binding SaveReportAsCommand}"
+                            IsEnabled="{Binding HasAnalysisData}"
+                            HorizontalAlignment="Stretch"
+                            FontSize="14"/>
+
+                    <!-- Open folder -->
+                    <Button Content="Open Reports Folder"
+                            Command="{Binding OpenReportsFolderCommand}"
+                            HorizontalAlignment="Stretch"
+                            FontSize="13"
+                            MinHeight="44"
+                            Background="{StaticResource PageBgBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"/>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

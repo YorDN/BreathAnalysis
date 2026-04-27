@@ -1,0 +1,183 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+             xmlns:vm="using:BreathAnalysis.ViewModels"
+             x:Class="BreathAnalysis.Views.LiveView"
+             x:DataType="vm:LiveViewModel"             
+             Background="{StaticResource PageBgBrush}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ── Live value cards ───────────────────────────────────── -->
+        <ScrollViewer Grid.Row="0"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Horizontal" Margin="6,6,6,0">
+
+                <!-- MQ138 -->
+                <Border Classes="card" MinWidth="120">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="MQ-138"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                        <TextBlock Text="{Binding LatestMq138, StringFormat={}{0:F0}}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#E74C3C"/>
+                        <TextBlock Text="VOCs"
+                                   FontSize="10"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- MQ7 -->
+                <Border Classes="card" MinWidth="120">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="MQ-7"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                        <TextBlock Text="{Binding LatestMq7, StringFormat={}{0:F0}}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#E67E22"/>
+                        <TextBlock Text="CO"
+                                   FontSize="10"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- MQ137 -->
+                <Border Classes="card" MinWidth="120">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="MQ-137"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                        <TextBlock Text="{Binding LatestMq137, StringFormat={}{0:F0}}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#8E44AD"/>
+                        <TextBlock Text="NH₃"
+                                   FontSize="10"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- CO2 -->
+                <Border Classes="card" MinWidth="120">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="MH-Z19C"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                        <TextBlock Text="{Binding LatestCo2, StringFormat={}{0:F0}}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#2980B9"/>
+                        <TextBlock Text="CO₂ ppm"
+                                   FontSize="10"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- WinPower -->
+                <Border Classes="card" MinWidth="120">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="WinPower"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                        <TextBlock Text="{Binding LatestWinPower, StringFormat={}{0:F0}}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#27AE60"/>
+                        <TextBlock Text="Raw ADC"
+                                   FontSize="10"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Breath indicator -->
+                <Border Classes="card" MinWidth="120">
+                    <StackPanel Spacing="4"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="Breath"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecBrush}"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="●"
+                                   FontSize="36"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{Binding BreathColor}"/>
+                        <TextBlock Text="{Binding BreathLabel}"
+                                   FontSize="10"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{StaticResource TextSecBrush}"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ── Graphs ─────────────────────────────────────────────── -->
+        <TabControl Grid.Row="1" Margin="6">
+
+            <!-- Overview tab -->
+            <TabItem Header="Overview">
+                <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
+                    <Border Grid.Row="0" Grid.Column="0"
+                            Classes="card" Padding="4">
+                        <ScottPlot:AvaPlot Name="PlotOverview138" Margin="2"/>
+                    </Border>
+                    <Border Grid.Row="0" Grid.Column="1"
+                            Classes="card" Padding="4">
+                        <ScottPlot:AvaPlot Name="PlotOverview7" Margin="2"/>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="0"
+                            Classes="card" Padding="4">
+                        <ScottPlot:AvaPlot Name="PlotOverview137" Margin="2"/>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="1"
+                            Classes="card" Padding="4">
+                        <ScottPlot:AvaPlot Name="PlotOverviewCo2" Margin="2"/>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- Individual tabs -->
+            <TabItem Header="VOC (MQ-138)">
+                <Border Classes="card" Padding="4">
+                    <ScottPlot:AvaPlot Name="PlotMq138" Margin="2"/>
+                </Border>
+            </TabItem>
+
+            <TabItem Header="CO (MQ-7)">
+                <Border Classes="card" Padding="4">
+                    <ScottPlot:AvaPlot Name="PlotMq7" Margin="2"/>
+                </Border>
+            </TabItem>
+
+            <TabItem Header="NH₃ (MQ-137)">
+                <Border Classes="card" Padding="4">
+                    <ScottPlot:AvaPlot Name="PlotMq137" Margin="2"/>
+                </Border>
+            </TabItem>
+
+            <TabItem Header="CO₂">
+                <Border Classes="card" Padding="4">
+                    <ScottPlot:AvaPlot Name="PlotCo2" Margin="2"/>
+                </Border>
+            </TabItem>
+
+            <TabItem Header="WinPower">
+                <Border Classes="card" Padding="4">
+                    <ScottPlot:AvaPlot Name="PlotWinPower" Margin="2"/>
+                </Border>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</UserControl>

@@ -1,0 +1,103 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:BreathAnalysis.ViewModels"
+             xmlns:views="using:BreathAnalysis.Views"
+             x:Class="BreathAnalysis.App"
+             RequestedThemeVariant="Light">
+
+    <Application.DataTemplates>
+        <DataTemplate DataType="vm:HomeViewModel">
+            <views:HomeView/>
+        </DataTemplate>
+        <DataTemplate DataType="vm:LiveViewModel">
+            <views:LiveView/>
+        </DataTemplate>
+        <DataTemplate DataType="vm:ReportViewModel">
+            <views:ReportView/>
+        </DataTemplate>
+    </Application.DataTemplates>
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#1A252F"/>
+        <SolidColorBrush x:Key="AccentBlueBrush"  Color="#2980B9"/>
+        <SolidColorBrush x:Key="AccentGreenBrush" Color="#27AE60"/>
+        <SolidColorBrush x:Key="AccentRedBrush"   Color="#E74C3C"/>
+        <SolidColorBrush x:Key="PageBgBrush"      Color="#F4F6F9"/>
+        <SolidColorBrush x:Key="CardBgBrush"      Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TextSecBrush"     Color="#7F8C8D"/>
+        <SolidColorBrush x:Key="BorderBrush"      Color="#E0E6ED"/>
+        <SolidColorBrush x:Key="AccentOrangeBrush" Color="#E67E22"/>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme/>
+
+        <Style Selector="Border.card">
+            <Setter Property="Background"      Value="{StaticResource CardBgBrush}"/>
+            <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius"    Value="10"/>
+            <Setter Property="Padding"         Value="16"/>
+            <Setter Property="Margin"          Value="6"/>
+        </Style>
+
+        <Style Selector="Button.primary">
+            <Setter Property="Background"                 Value="{StaticResource AccentBlueBrush}"/>
+            <Setter Property="Foreground"                 Value="White"/>
+            <Setter Property="FontWeight"                 Value="SemiBold"/>
+            <Setter Property="CornerRadius"               Value="8"/>
+            <Setter Property="BorderThickness"            Value="0"/>
+            <Setter Property="MinHeight"                  Value="52"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor"                     Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.success">
+            <Setter Property="Background"                 Value="{StaticResource AccentGreenBrush}"/>
+            <Setter Property="Foreground"                 Value="White"/>
+            <Setter Property="FontWeight"                 Value="SemiBold"/>
+            <Setter Property="CornerRadius"               Value="8"/>
+            <Setter Property="BorderThickness"            Value="0"/>
+            <Setter Property="MinHeight"                  Value="52"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor"                     Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.nav">
+            <Setter Property="Background"                 Value="Transparent"/>
+            <Setter Property="Foreground"                 Value="#BDC3C7"/>
+            <Setter Property="HorizontalAlignment"        Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding"                    Value="20,16"/>
+            <Setter Property="FontSize"                   Value="13"/>
+            <Setter Property="MinHeight"                  Value="52"/>
+            <Setter Property="BorderThickness"            Value="0"/>
+            <Setter Property="CornerRadius"               Value="0"/>
+            <Setter Property="Cursor"                     Value="Hand"/>
+        </Style>
+        <Style Selector="Button.nav.active /template/ ContentPresenter">
+            <Setter Property="Background" Value="#2980B9"/>
+        </Style>
+        <Style Selector="Button.nav:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#2C3E50"/>
+        </Style>
+
+        <Style Selector="Button.tab">
+            <Setter Property="Background"                 Value="Transparent"/>
+            <Setter Property="Foreground"                 Value="#7F8C8D"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize"                   Value="11"/>
+            <Setter Property="MinHeight"                  Value="56"/>
+            <Setter Property="BorderThickness"            Value="0"/>
+            <Setter Property="CornerRadius"               Value="0"/>
+            <Setter Property="Padding"                    Value="4"/>
+            <Setter Property="Cursor"                     Value="Hand"/>
+        </Style>
+        <Style Selector="Button.tab.active">
+            <Setter Property="Foreground" Value="#2980B9"/>
+        </Style>
+        <Style Selector="Button.tab.active /template/ ContentPresenter">
+            <Setter Property="Background" Value="#EBF5FB"/>
+        </Style>
+    </Application.Styles>
+</Application>

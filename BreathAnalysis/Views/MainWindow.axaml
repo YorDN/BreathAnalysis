@@ -1,0 +1,135 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BreathAnalysis.ViewModels"
+        x:Class="BreathAnalysis.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Breath Analysis System"
+        MinWidth="800" MinHeight="480"
+        Background="{StaticResource PageBgBrush}">
+
+    <Grid>
+        <!-- ══════════════════ DESKTOP LAYOUT ══════════════════ -->
+        <Grid ColumnDefinitions="210,*"
+              IsVisible="{Binding !IsTouchMode}">
+
+            <!-- Sidebar -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource PrimaryDarkBrush}"
+                    BoxShadow="2 0 8 0 #22000000">
+                <DockPanel>
+                    <!-- Logo -->
+                    <Border DockPanel.Dock="Top"
+                            Background="#16202A"
+                            Padding="20,22">
+                        <StackPanel>
+                            <TextBlock Text="🫁 BreathAnalysis"
+                                       FontSize="15" FontWeight="Bold"
+                                       Foreground="White"/>
+                            <TextBlock Text="Quantum AI System"
+                                       FontSize="10" Foreground="#7F8C8D"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <!-- Version -->
+                    <TextBlock DockPanel.Dock="Bottom"
+                               Text="v1.0 — Diploma Project"
+                               FontSize="10" Foreground="#4A6274"
+                               Margin="20,0,0,14"/>
+                    <!-- Nav -->
+                    <StackPanel Margin="0,10,0,0">
+                        <Button Classes="nav"
+                                Classes.active="{Binding IsHomeActive}"
+                                Content="Home"
+                                Command="{Binding NavigateToHomeCommand}"/>
+                        <Button Classes="nav"
+                                Classes.active="{Binding IsLiveActive}"
+                                Content="Live Monitor"
+                                Command="{Binding NavigateToLiveCommand}"/>
+                        <Button Classes="nav"
+                                Classes.active="{Binding IsReportActive}"
+                                Content="Report"
+                                Command="{Binding NavigateToReportCommand}"/>
+                        <Separator Margin="20,10" Background="#2C3E50"/>
+                        <Button Classes="nav"
+                                Content="Touch Mode"
+                                Command="{Binding ToggleLayoutCommand}"
+                                Foreground="#7F8C8D"
+                                FontSize="11"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Content -->
+            <Grid Grid.Column="1" RowDefinitions="54,*">
+                <Border Grid.Row="0" Background="White"
+                        BoxShadow="0 1 4 0 #18000000"
+                        Padding="24,0">
+                    <DockPanel>
+                        <TextBlock Text="{Binding SerialService.CurrentPort,
+                                          StringFormat='🔌 {0}'}"
+                                   DockPanel.Dock="Right"
+                                   FontSize="12" Foreground="{StaticResource TextSecBrush}"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding CurrentPageName}"
+                                   FontSize="17" FontWeight="SemiBold"
+                                   Foreground="#2C3E50"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </Border>
+                <ContentControl Grid.Row="1"
+                                Content="{Binding CurrentPage}"/>
+            </Grid>
+        </Grid>
+
+        <!-- ══════════════════ TOUCH LAYOUT ══════════════════ -->
+        <Grid RowDefinitions="44,*,56"
+              IsVisible="{Binding IsTouchMode}">
+
+            <!-- Top bar -->
+            <Border Grid.Row="0" Background="{StaticResource PrimaryDarkBrush}"
+                    Padding="12,0">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right"
+                            Content="🖥"
+                            Command="{Binding ToggleLayoutCommand}"
+                            Background="Transparent" Foreground="#BDC3C7"
+                            BorderThickness="0" Padding="8,4" FontSize="14"
+                            VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding CurrentPageName}"
+                               FontSize="14" FontWeight="SemiBold"
+                               Foreground="White" VerticalAlignment="Center"/>
+                </DockPanel>
+            </Border>
+
+            <!-- Content -->
+            <ContentControl Grid.Row="1" Content="{Binding CurrentPage}"/>
+
+            <!-- Bottom tabs -->
+            <Border Grid.Row="2" Background="White"
+                    BoxShadow="0 -1 4 0 #18000000">
+                <UniformGrid Columns="3">
+                    <Button Classes="tab"
+                            Classes.active="{Binding IsHomeActive}"
+                            Command="{Binding NavigateToHomeCommand}">
+                        <StackPanel Spacing="1">
+                            <TextBlock Text="Home" FontSize="20"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="tab"
+                            Classes.active="{Binding IsLiveActive}"
+                            Command="{Binding NavigateToLiveCommand}">
+                        <TextBlock Text="Monitor" FontSize="20"
+                                       HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Classes="tab"
+                            Classes.active="{Binding IsReportActive}"
+                            Command="{Binding NavigateToReportCommand}">
+                        <TextBlock Text="Report" FontSize="20"
+                                       HorizontalAlignment="Center"/>
+                    </Button>
+                </UniformGrid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
