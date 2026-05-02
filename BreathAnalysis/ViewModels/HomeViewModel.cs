@@ -150,16 +150,30 @@ public partial class HomeViewModel : ObservableObject
                     break;
 
                 case "FAN_OFF":
-                case "SYSTEM_READY":
-                    State = HomeState.Done;
-                    Task.Delay(3000).ContinueWith(_ =>
-                        Avalonia.Threading.Dispatcher.UIThread.Post(() =>
-                            State = HomeState.Idle));
+                case "READY":
+                    if (State == HomeState.Ventilating)
+                    {
+                        State = HomeState.Done;
+                        Task.Delay(3000).ContinueWith(_ =>
+                            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+                                State = HomeState.Idle));
+                    }
+                    break;
+
+                case "BUSY":
+                    StatusText = "⚠ Arduino is busy";
+                    StatusSub = "Wait for current operation to finish";
+                    break;
+
+                case "SYSTEM_STOPPED":
+                    State = HomeState.Idle;
+                    IsSessionActive = false;
+                    StatusText = "Stopped";
+                    StatusSub = "Press START to begin analysis";
                     break;
             }
         });
     }
-
     private void OnSerialError(string error)
     {
         Avalonia.Threading.Dispatcher.UIThread.Post(() =>

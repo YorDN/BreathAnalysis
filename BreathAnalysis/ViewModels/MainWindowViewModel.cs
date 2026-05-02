@@ -10,6 +10,17 @@ namespace BreathAnalysis.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
 {
+    public MainWindowViewModel()
+    {
+        ReportService.EnsureDirectory();
+        SerialService.ReadingReceived += OnReadingReceived;
+        SerialService.StatusReceived += OnStatusReceived; // ← add
+
+        _liveVm = new LiveViewModel(AllReadings, SerialService); // ← add SerialService
+        _reportVm = new ReportViewModel(ReportService, AllReadings, AnalysisReadings);
+
+        NavigateToHome();
+    }
     // ── Services (shared across all pages) ───────────────────────────────
     public SerialService SerialService { get; } = new();
     public ReportService ReportService { get; } = new();
@@ -32,13 +43,7 @@ public partial class MainWindowViewModel : ObservableObject
     private HomeViewModel? _homeVm;
     private LiveViewModel? _liveVm;
     private ReportViewModel? _reportVm;
-
-    public MainWindowViewModel()
-    {
-        ReportService.EnsureDirectory();
-        SerialService.ReadingReceived += OnReadingReceived;
-        NavigateToHome();
-    }
+    public ReportViewModel? ReportVm => _reportVm;
 
     // ── Reading handler ──────────────────────────────────────────────────
     private void OnReadingReceived(SensorReading reading)
@@ -56,6 +61,14 @@ public partial class MainWindowViewModel : ObservableObject
             }
         });
     }
+    private void OnStatusReceived(string status)
+    {
+        Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+        {
+            _liveVm?.OnArduinoStatus(status);
+        });
+    }
+
 
     // ── Navigation ───────────────────────────────────────────────────────
     [RelayCommand]
@@ -72,9 +85,9 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     public void NavigateToLive()
     {
-        _liveVm ??= new LiveViewModel(AllReadings);
+        // _liveVm already created in constructor
         CurrentPage = _liveVm;
-        CurrentPageName = "Live";
+        CurrentPageName = "Live Monitor";
         IsHomeActive = false;
         IsLiveActive = true;
         IsReportActive = false;
@@ -83,7 +96,7 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     public void NavigateToReport()
     {
-        _reportVm ??= new ReportViewModel(ReportService, AllReadings, AnalysisReadings);
+        // _reportVm already created in constructor
         CurrentPage = _reportVm;
         CurrentPageName = "Report";
         IsHomeActive = false;

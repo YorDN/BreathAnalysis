@@ -1,5 +1,7 @@
 ﻿using BreathAnalysis.Models;
+using BreathAnalysis.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -30,14 +32,29 @@ public partial class LiveViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(BreathLabel))]
     private bool _isBreath = false;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(StreamButtonLabel))]
+    [NotifyPropertyChangedFor(nameof(StreamIndicatorColor))]
+    [NotifyPropertyChangedFor(nameof(StreamStatusText))]
+    private bool _isStreaming = false;
+
     public string BreathColor => IsBreath ? "#E74C3C" : "#27AE60";
     public string BreathLabel => IsBreath ? "Detected" : "None";
+    public string StreamButtonLabel => IsStreaming ? "⏹ Stop Live Stream" : "▶ Start Live Stream";
+    public string StreamIndicatorColor => IsStreaming ? "#27AE60" : "#BDC3C7";
+    public string StreamStatusText => IsStreaming ? "Streaming live data..." : "Stream stopped";
+
 
     public event Action? PlotRefreshRequested;
 
-    public LiveViewModel(ObservableCollection<SensorReading> allReadings)
+    private readonly SerialService _serial;
+
+    public LiveViewModel(
+        ObservableCollection<SensorReading> allReadings,
+        SerialService serial)
     {
         _allReadings = allReadings;
+        _serial = serial;
         _allReadings.CollectionChanged += OnReadingsChanged;
     }
 
@@ -70,4 +87,34 @@ public partial class LiveViewModel : ObservableObject
             PlotRefreshRequested?.Invoke();
         }
     }
+    [RelayCommand]
+    public void ToggleStream()
+    {
+        if (IsStreaming)
+        {
+            _serial.EndContinuous();
+            IsStreaming = false;
+        }
+        else
+        {
+            _serial.StartContinuous();
+            IsStreaming = true;
+        }
+    }
+
+    public void OnArduinoStatus(string status)
+    {
+        switch (status)
+        {
+            case "CONTINUOUS_STARTED":
+                IsStreaming = true;
+                break;
+            case "CONTINUOUS_ENDED":
+            case "SYSTEM_STOPPED":
+            case "READY":
+                IsStreaming = false;
+                break;
+        }
+    }
+
 }

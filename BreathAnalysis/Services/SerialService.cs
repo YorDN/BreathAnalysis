@@ -60,6 +60,9 @@ namespace BreathAnalysis.Services
         }
 
         public void StartSession() => SendCommand("START");
+        public void StartContinuous() => SendCommand("CONTINUOUS");
+        public void EndContinuous() => SendCommand("END");
+        public void StopAll() => SendCommand("STOP");
 
         // ── Parse incoming data ───────────────────────────────────────────────
         private void OnDataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -72,15 +75,21 @@ namespace BreathAnalysis.Services
 
                 // Status messages from Arduino
                 if (line is "SESSION_STARTED" or "SESSION_ENDED"
-                         or "FAN_ON" or "FAN_OFF"
-                         or "SYSTEM_READY" or "System Ready")
+                        or "CONTINUOUS_STARTED" or "CONTINUOUS_ENDED"
+                        or "FAN_ON" or "FAN_OFF"
+                        or "SYSTEM_STOPPED" or "READY"
+                        or "BUSY" or "NO_CONTINUOUS_SESSION"
+                        or "Breath Analysis System Ready")
                 {
                     StatusReceived?.Invoke(line);
                     return;
                 }
 
                 // Skip header lines
-                if (line.Contains("Send") || line.Contains("MQ")) return;
+                if (line.Contains("Send") ||
+                    line.Contains("Commands") ||
+                    line.Contains("STATE=") ||
+                    line.StartsWith("MQ138")) return;
 
                 // Parse sensor CSV: MQ138, MQ7, MQ137, CO2, WinPower
                 string[] parts = line.Split(',');

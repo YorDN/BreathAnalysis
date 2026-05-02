@@ -6,7 +6,7 @@
              x:DataType="vm:LiveViewModel"             
              Background="{StaticResource PageBgBrush}">
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,Auto,*">
 
         <!-- ── Live value cards ───────────────────────────────────── -->
         <ScrollViewer Grid.Row="0"
@@ -85,7 +85,7 @@
                 <!-- WinPower -->
                 <Border Classes="card" MinWidth="120">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="WinPower"
+                        <TextBlock Text="GSTB-400H"
                                    FontSize="11"
                                    FontWeight="SemiBold"
                                    Foreground="{StaticResource TextSecBrush}"/>
@@ -122,8 +122,35 @@
             </StackPanel>
         </ScrollViewer>
 
+    <Border Grid.Row="1"
+        Background="White"
+        BorderBrush="{StaticResource BorderBrush}"
+        BorderThickness="0,0,0,1"
+        Padding="12,8">
+        <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="8"
+                        VerticalAlignment="Center" >
+                <Ellipse Width="10" Height="10"
+                         Fill="{Binding StreamIndicatorColor}"
+                         VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding StreamStatusText}"
+                           FontSize="12"
+                           Foreground="{StaticResource TextSecBrush}"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+            <Button Grid.Column="1"
+                    Content="{Binding StreamButtonLabel}"
+                    Command="{Binding ToggleStreamCommand}"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Classes="primary"
+                    MinWidth="180"
+                    FontSize="13"/>
+        </Grid>
+    </Border>
         <!-- ── Graphs ─────────────────────────────────────────────── -->
-        <TabControl Grid.Row="1" Margin="6">
+        <TabControl Grid.Row="2" Margin="6">
 
             <!-- Overview tab -->
             <TabItem Header="Overview">
@@ -166,13 +193,13 @@
                 </Border>
             </TabItem>
 
-            <TabItem Header="CO₂">
+            <TabItem Header="CO₂ (MH-Z19C)">
                 <Border Classes="card" Padding="4">
                     <ScottPlot:AvaPlot Name="PlotCo2" Margin="2"/>
                 </Border>
             </TabItem>
 
-            <TabItem Header="WinPower">
+            <TabItem Header="O₂ (GSTB-400H)">
                 <Border Classes="card" Padding="4">
                     <ScottPlot:AvaPlot Name="PlotWinPower" Margin="2"/>
                 </Border>
