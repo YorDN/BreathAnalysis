@@ -107,28 +107,52 @@
             <!-- Bottom tabs -->
             <Border Grid.Row="2" Background="White"
                     BoxShadow="0 -1 4 0 #18000000">
-                <UniformGrid Columns="3">
-                    <Button Classes="tab"
-                            Classes.active="{Binding IsHomeActive}"
-                            Command="{Binding NavigateToHomeCommand}">
-                        <StackPanel Spacing="1">
-                            <TextBlock Text="Home" FontSize="20"
-                                       HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
-                    <Button Classes="tab"
-                            Classes.active="{Binding IsLiveActive}"
-                            Command="{Binding NavigateToLiveCommand}">
-                        <TextBlock Text="Monitor" FontSize="20"
-                                       HorizontalAlignment="Center"/>
-                    </Button>
-                    <Button Classes="tab"
-                            Classes.active="{Binding IsReportActive}"
-                            Command="{Binding NavigateToReportCommand}">
-                        <TextBlock Text="Report" FontSize="20"
-                                       HorizontalAlignment="Center"/>
-                    </Button>
-                </UniformGrid>
+               <Border Grid.Row="2" Background="White"
+        BoxShadow="0 -1 4 0 #18000000">
+    <Grid ColumnDefinitions="*,*,*">
+        <Button Grid.Column="0"
+                Classes="tab"
+                Classes.active="{Binding IsHomeActive}"
+                Command="{Binding NavigateToHomeCommand}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <StackPanel Spacing="1" HorizontalAlignment="Center">
+                <TextBlock Text="🏠" FontSize="20"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Home" FontSize="10"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Button>
+
+        <Button Grid.Column="1"
+                Classes="tab"
+                Classes.active="{Binding IsLiveActive}"
+                Command="{Binding NavigateToLiveCommand}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <StackPanel Spacing="1" HorizontalAlignment="Center">
+                <TextBlock Text="📡" FontSize="20"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Monitor" FontSize="10"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Button>
+
+        <Button Grid.Column="2"
+                Classes="tab"
+                Classes.active="{Binding IsReportActive}"
+                Command="{Binding NavigateToReportCommand}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <StackPanel Spacing="1" HorizontalAlignment="Center">
+                <TextBlock Text="📄" FontSize="20"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Report" FontSize="10"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</Border>
             </Border>
         </Grid>
     </Grid>

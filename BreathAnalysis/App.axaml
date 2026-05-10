@@ -51,6 +51,11 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Cursor"                     Value="Hand"/>
         </Style>
+        <Style Selector="Button.active">
+            <Setter Property="BorderThickness" Value="0,0,0,3"/>
+            <Setter Property="BorderBrush"     Value="#2980B9"/>
+            <Setter Property="FontWeight"      Value="SemiBold"/>
+        </Style>
 
         <Style Selector="Button.success">
             <Setter Property="Background"                 Value="{StaticResource AccentGreenBrush}"/>

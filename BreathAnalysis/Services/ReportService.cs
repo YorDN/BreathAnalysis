@@ -98,7 +98,7 @@ public class ReportService
                     row.ConstantItem(60).Column(col =>
                     {
                         col.Item()
-                            .Text("🫁")
+                            .Text("")
                             .FontSize(36)
                             .AlignRight();
                     });
@@ -277,8 +277,6 @@ public class ReportService
                         }
                     });
                 });
-
-                // ── Footer ────────────────────────────────────────────────
                 // ── Footer ────────────────────────────────────────────────────────────
 page.Footer().AlignCenter().Text(t =>
 {

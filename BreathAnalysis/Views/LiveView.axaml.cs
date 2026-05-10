@@ -25,11 +25,17 @@ namespace BreathAnalysis.Views
 
             if (DataContext is LiveViewModel vm)
             {
-                // Unsubscribe first to avoid double subscription
                 vm.PlotRefreshRequested -= OnPlotRefresh;
+                vm.TouchPlotRefreshRequested -= OnTouchPlotRefresh;
+
                 _vm = vm;
                 SetupPlots();
+
                 vm.PlotRefreshRequested += OnPlotRefresh;
+                vm.TouchPlotRefreshRequested += OnTouchPlotRefresh;
+
+                // Sync layout mode from MainWindowViewModel
+                SyncLayoutMode();
             }
         }
 
@@ -37,22 +43,44 @@ namespace BreathAnalysis.Views
             Avalonia.VisualTreeAttachmentEventArgs e)
         {
             base.OnDetachedFromVisualTree(e);
-
             if (_vm != null)
+            {
                 _vm.PlotRefreshRequested -= OnPlotRefresh;
+                _vm.TouchPlotRefreshRequested -= OnTouchPlotRefresh;
+            }
+        }
+
+        private void SyncLayoutMode()
+        {
+            var mainVm = FindMainViewModel();
+            if (mainVm != null && _vm != null)
+            {
+                _vm.IsDesktop = !mainVm.IsTouchMode;
+
+                // Subscribe to layout changes
+                mainVm.PropertyChanged += (_, e) =>
+                {
+                    if (e.PropertyName == nameof(MainWindowViewModel.IsTouchMode))
+                        _vm.IsDesktop = !mainVm.IsTouchMode;
+                };
+            }
         }
 
         private void SetupPlots()
         {
+            // Desktop plots
             Setup(PlotOverview138, "Volatile Organic Compounds", Color.FromHex("E74C3C"));
-            Setup(PlotOverview7, "Carbon Monoxide", Color.FromHex("E67E22"));
+            Setup(PlotOverview7, "Carbon monoxide", Color.FromHex("E67E22"));
             Setup(PlotOverview137, "Ammonia", Color.FromHex("8E44AD"));
-            Setup(PlotOverviewCo2, "Carbon Dioxide", Color.FromHex("2980B9"));
-            Setup(PlotMq138, "Volatile Organic Compounds (VOCs)", Color.FromHex("E74C3C"));
-            Setup(PlotMq7, "Carbon Monoxide (CO)", Color.FromHex("E67E22"));
-            Setup(PlotMq137, "Ammonia (NH₃)", Color.FromHex("8E44AD"));
-            Setup(PlotCo2, "Carbon Dioxide (CO₂)", Color.FromHex("2980B9"));
-            Setup(PlotWinPower, "Oxygen (O₂)", Color.FromHex("27AE60"));
+            Setup(PlotOverviewCo2, "Carbon dioxide", Color.FromHex("2980B9"));
+            Setup(PlotMq138, "Volatile Organic Compounds", Color.FromHex("E74C3C"));
+            Setup(PlotMq7, "Carbon monoxide", Color.FromHex("E67E22"));
+            Setup(PlotMq137, "Ammonia", Color.FromHex("8E44AD"));
+            Setup(PlotCo2, "Carbon dioxide", Color.FromHex("2980B9"));
+            Setup(PlotWinPower, "Oxygen", Color.FromHex("27AE60"));
+
+            // Touch plot — starts with MQ138
+            Setup(PlotTouch, "MQ-138 — VOCs", Color.FromHex("E74C3C"));
         }
 
         private static void Setup(AvaPlot plot, string title, Color color)
@@ -70,6 +98,7 @@ namespace BreathAnalysis.Views
 
             Dispatcher.UIThread.Post(() =>
             {
+                // Desktop plots
                 Render(PlotOverview138, _vm.DataMq138, Color.FromHex("E74C3C"));
                 Render(PlotOverview7, _vm.DataMq7, Color.FromHex("E67E22"));
                 Render(PlotOverview137, _vm.DataMq137, Color.FromHex("8E44AD"));
@@ -80,9 +109,35 @@ namespace BreathAnalysis.Views
                 Render(PlotCo2, _vm.DataCo2, Color.FromHex("2980B9"));
                 Render(PlotWinPower, _vm.DataWinPower, Color.FromHex("27AE60"));
 
-                // Pass plot images to ReportViewModel every refresh
+                // Touch plot — render whichever sensor is selected
+                RenderTouchPlot(_vm.SelectedSensor);
+
                 PassImagesToReport();
             });
+        }
+
+        private void OnTouchPlotRefresh(string sensor)
+        {
+            Dispatcher.UIThread.Post(() => RenderTouchPlot(sensor));
+        }
+
+        private void RenderTouchPlot(string sensor)
+        {
+            if (_vm == null) return;
+
+            var (data, color, title) = sensor switch
+            {
+                "MQ7" => (_vm.DataMq7, Color.FromHex("E67E22"), "Carbon monoxide"),
+                "MQ137" => (_vm.DataMq137, Color.FromHex("8E44AD"), "Ammonia"),
+                "CO2" => (_vm.DataCo2, Color.FromHex("2980B9"), "Carbon dioxide"),
+                "WIN" => (_vm.DataWinPower, Color.FromHex("27AE60"), "Oxygen"),
+                _ => (_vm.DataMq138, Color.FromHex("E74C3C"), "Volatile Organic Compounds")
+            };
+
+            PlotTouch.Plot.Title(title);
+            PlotTouch.Plot.Axes.Title.Label.ForeColor = color;
+            PlotTouch.Plot.Axes.Left.Label.ForeColor = color;
+            Render(PlotTouch, data, color);
         }
 
         private static void Render(AvaPlot plot, double[] data, Color color)
@@ -94,14 +149,9 @@ namespace BreathAnalysis.Views
             plot.Refresh();
         }
 
-        // ── Pass plot images to ReportViewModel ───────────────────────────────
         private void PassImagesToReport()
         {
-            // Walk up the visual tree to find MainWindowViewModel
-            var mainVm = (DataContext as LiveViewModel) == null
-                ? null
-                : FindMainViewModel();
-
+            var mainVm = FindMainViewModel();
             if (mainVm?.ReportVm == null) return;
 
             mainVm.ReportVm.PlotMq138 = GetImage(PlotMq138);
@@ -127,5 +177,4 @@ namespace BreathAnalysis.Views
         private static byte[] GetImage(AvaPlot plot) =>
             plot.Plot.GetImageBytes(800, 300);
     }
-
 }

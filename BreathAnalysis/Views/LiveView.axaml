@@ -8,112 +8,76 @@
 
     <Grid RowDefinitions="Auto,Auto,*">
 
-        <!-- ── Live value cards ───────────────────────────────────── -->
         <ScrollViewer Grid.Row="0"
                       HorizontalScrollBarVisibility="Auto"
-                      VerticalScrollBarVisibility="Disabled">
+                      VerticalScrollBarVisibility="Disabled"
+                      IsVisible="{Binding IsDesktop}">
             <StackPanel Orientation="Horizontal" Margin="6,6,6,0">
 
-                <!-- MQ138 -->
                 <Border Classes="card" MinWidth="120">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="MQ-138"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
+                        <TextBlock Text="MQ-138" FontSize="11" FontWeight="SemiBold"
                                    Foreground="{StaticResource TextSecBrush}"/>
                         <TextBlock Text="{Binding LatestMq138, StringFormat={}{0:F0}}"
-                                   FontSize="28"
-                                   FontWeight="Bold"
-                                   Foreground="#E74C3C"/>
-                        <TextBlock Text="VOCs"
-                                   FontSize="10"
+                                   FontSize="28" FontWeight="Bold" Foreground="#E74C3C"/>
+                        <TextBlock Text="VOCs" FontSize="10"
                                    Foreground="{StaticResource TextSecBrush}"/>
                     </StackPanel>
                 </Border>
 
-                <!-- MQ7 -->
                 <Border Classes="card" MinWidth="120">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="MQ-7"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
+                        <TextBlock Text="MQ-7" FontSize="11" FontWeight="SemiBold"
                                    Foreground="{StaticResource TextSecBrush}"/>
                         <TextBlock Text="{Binding LatestMq7, StringFormat={}{0:F0}}"
-                                   FontSize="28"
-                                   FontWeight="Bold"
-                                   Foreground="#E67E22"/>
-                        <TextBlock Text="CO"
-                                   FontSize="10"
+                                   FontSize="28" FontWeight="Bold" Foreground="#E67E22"/>
+                        <TextBlock Text="CO" FontSize="10"
                                    Foreground="{StaticResource TextSecBrush}"/>
                     </StackPanel>
                 </Border>
 
-                <!-- MQ137 -->
                 <Border Classes="card" MinWidth="120">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="MQ-137"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
+                        <TextBlock Text="MQ-137" FontSize="11" FontWeight="SemiBold"
                                    Foreground="{StaticResource TextSecBrush}"/>
                         <TextBlock Text="{Binding LatestMq137, StringFormat={}{0:F0}}"
-                                   FontSize="28"
-                                   FontWeight="Bold"
-                                   Foreground="#8E44AD"/>
-                        <TextBlock Text="NH₃"
-                                   FontSize="10"
+                                   FontSize="28" FontWeight="Bold" Foreground="#8E44AD"/>
+                        <TextBlock Text="NH₃" FontSize="10"
                                    Foreground="{StaticResource TextSecBrush}"/>
                     </StackPanel>
                 </Border>
 
-                <!-- CO2 -->
                 <Border Classes="card" MinWidth="120">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="MH-Z19C"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
+                        <TextBlock Text="MH-Z19C" FontSize="11" FontWeight="SemiBold"
                                    Foreground="{StaticResource TextSecBrush}"/>
                         <TextBlock Text="{Binding LatestCo2, StringFormat={}{0:F0}}"
-                                   FontSize="28"
-                                   FontWeight="Bold"
-                                   Foreground="#2980B9"/>
-                        <TextBlock Text="CO₂ ppm"
-                                   FontSize="10"
+                                   FontSize="28" FontWeight="Bold" Foreground="#2980B9"/>
+                        <TextBlock Text="CO₂ ppm" FontSize="10"
                                    Foreground="{StaticResource TextSecBrush}"/>
                     </StackPanel>
                 </Border>
 
-                <!-- WinPower -->
                 <Border Classes="card" MinWidth="120">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="GSTB-400H"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
+                        <TextBlock Text="WinPower" FontSize="11" FontWeight="SemiBold"
                                    Foreground="{StaticResource TextSecBrush}"/>
                         <TextBlock Text="{Binding LatestWinPower, StringFormat={}{0:F0}}"
-                                   FontSize="28"
-                                   FontWeight="Bold"
-                                   Foreground="#27AE60"/>
-                        <TextBlock Text="Raw ADC"
-                                   FontSize="10"
+                                   FontSize="28" FontWeight="Bold" Foreground="#27AE60"/>
+                        <TextBlock Text="Raw ADC" FontSize="10"
                                    Foreground="{StaticResource TextSecBrush}"/>
                     </StackPanel>
                 </Border>
 
-                <!-- Breath indicator -->
                 <Border Classes="card" MinWidth="120">
-                    <StackPanel Spacing="4"
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="Breath"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
+                    <StackPanel Spacing="4" HorizontalAlignment="Center">
+                        <TextBlock Text="Breath" FontSize="11" FontWeight="SemiBold"
                                    Foreground="{StaticResource TextSecBrush}"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="●"
-                                   FontSize="36"
+                        <TextBlock Text="●" FontSize="36"
                                    HorizontalAlignment="Center"
                                    Foreground="{Binding BreathColor}"/>
-                        <TextBlock Text="{Binding BreathLabel}"
-                                   FontSize="10"
+                        <TextBlock Text="{Binding BreathLabel}" FontSize="10"
                                    HorizontalAlignment="Center"
                                    Foreground="{StaticResource TextSecBrush}"/>
                     </StackPanel>
@@ -122,59 +86,121 @@
             </StackPanel>
         </ScrollViewer>
 
-    <Border Grid.Row="1"
-        Background="White"
-        BorderBrush="{StaticResource BorderBrush}"
-        BorderThickness="0,0,0,1"
-        Padding="12,8">
-        <Grid ColumnDefinitions="*,Auto">
-            <StackPanel Orientation="Horizontal"
-                        Spacing="8"
-                        VerticalAlignment="Center" >
-                <Ellipse Width="10" Height="10"
-                         Fill="{Binding StreamIndicatorColor}"
-                         VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding StreamStatusText}"
-                           FontSize="12"
-                           Foreground="{StaticResource TextSecBrush}"
-                           VerticalAlignment="Center"/>
-            </StackPanel>
-            <Button Grid.Column="1"
-                    Content="{Binding StreamButtonLabel}"
-                    Command="{Binding ToggleStreamCommand}"
-                    VerticalAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Classes="primary"
-                    MinWidth="180"
-                    FontSize="13"/>
-        </Grid>
-    </Border>
-        <!-- ── Graphs ─────────────────────────────────────────────── -->
-        <TabControl Grid.Row="2" Margin="6">
+        <Border Grid.Row="0"
+                IsVisible="{Binding IsTouch}"
+                Background="White"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="8,6">
+            <Grid ColumnDefinitions="*,*,*,*,*,Auto">
 
-            <!-- Overview tab -->
+                <!-- MQ138 -->
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                    <TextBlock Text="VOC" FontSize="9" FontWeight="SemiBold"
+                               Foreground="#E74C3C"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding LatestMq138, StringFormat={}{0:F0}}"
+                               FontSize="16" FontWeight="Bold" Foreground="#E74C3C"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- MQ7 -->
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                    <TextBlock Text="CO" FontSize="9" FontWeight="SemiBold"
+                               Foreground="#E67E22"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding LatestMq7, StringFormat={}{0:F0}}"
+                               FontSize="16" FontWeight="Bold" Foreground="#E67E22"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- MQ137 -->
+                <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                    <TextBlock Text="NH₃" FontSize="9" FontWeight="SemiBold"
+                               Foreground="#8E44AD"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding LatestMq137, StringFormat={}{0:F0}}"
+                               FontSize="16" FontWeight="Bold" Foreground="#8E44AD"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- CO2 -->
+                <StackPanel Grid.Column="3" HorizontalAlignment="Center">
+                    <TextBlock Text="CO₂" FontSize="9" FontWeight="SemiBold"
+                               Foreground="#2980B9"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding LatestCo2, StringFormat={}{0:F0}}"
+                               FontSize="16" FontWeight="Bold" Foreground="#2980B9"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- WinPower -->
+                <StackPanel Grid.Column="4" HorizontalAlignment="Center">
+                    <TextBlock Text="O₂" FontSize="9" FontWeight="SemiBold"
+                               Foreground="#27AE60"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding LatestWinPower, StringFormat={}{0:F0}}"
+                               FontSize="16" FontWeight="Bold" Foreground="#27AE60"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Breath indicator -->
+                <TextBlock Grid.Column="5"
+                           Text="●"
+                           FontSize="20"
+                           Foreground="{Binding BreathColor}"
+                           VerticalAlignment="Center"
+                           Margin="8,0,4,0"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Background="White"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="12,6">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="8"
+                            VerticalAlignment="Center">
+                    <Ellipse Width="10" Height="10"
+                             Fill="{Binding StreamIndicatorColor}"
+                             VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding StreamStatusText}"
+                               FontSize="12"
+                               Foreground="{StaticResource TextSecBrush}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Content="{Binding StreamButtonLabel}"
+                        Command="{Binding ToggleStreamCommand}"
+                        Classes="primary"
+                        MinWidth="160"
+                        FontSize="13"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="2" Margin="6"
+                    IsVisible="{Binding IsDesktop}">
+
             <TabItem Header="Overview">
                 <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
-                    <Border Grid.Row="0" Grid.Column="0"
-                            Classes="card" Padding="4">
+                    <Border Grid.Row="0" Grid.Column="0" Classes="card" Padding="4">
                         <ScottPlot:AvaPlot Name="PlotOverview138" Margin="2"/>
                     </Border>
-                    <Border Grid.Row="0" Grid.Column="1"
-                            Classes="card" Padding="4">
+                    <Border Grid.Row="0" Grid.Column="1" Classes="card" Padding="4">
                         <ScottPlot:AvaPlot Name="PlotOverview7" Margin="2"/>
                     </Border>
-                    <Border Grid.Row="1" Grid.Column="0"
-                            Classes="card" Padding="4">
+                    <Border Grid.Row="1" Grid.Column="0" Classes="card" Padding="4">
                         <ScottPlot:AvaPlot Name="PlotOverview137" Margin="2"/>
                     </Border>
-                    <Border Grid.Row="1" Grid.Column="1"
-                            Classes="card" Padding="4">
+                    <Border Grid.Row="1" Grid.Column="1" Classes="card" Padding="4">
                         <ScottPlot:AvaPlot Name="PlotOverviewCo2" Margin="2"/>
                     </Border>
                 </Grid>
             </TabItem>
 
-            <!-- Individual tabs -->
             <TabItem Header="VOC (MQ-138)">
                 <Border Classes="card" Padding="4">
                     <ScottPlot:AvaPlot Name="PlotMq138" Margin="2"/>
@@ -206,5 +232,79 @@
             </TabItem>
 
         </TabControl>
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!-- TOUCH — one graph at a time with selector buttons      -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <Grid Grid.Row="2" RowDefinitions="Auto,*"
+              IsVisible="{Binding IsTouch}">
+
+            <!-- Sensor selector buttons -->
+            <Border Grid.Row="0"
+                    Background="White"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="0,0,0,1">
+                <UniformGrid Columns="5">
+
+                    <Button Content="VOC"
+                            Command="{Binding SelectSensorCommand}"
+                            CommandParameter="MQ138"
+                            Classes.active="{Binding IsMq138Selected}"
+                            FontSize="12" MinHeight="40"
+                            BorderThickness="0" CornerRadius="0"
+                            Background="Transparent"
+                            Foreground="#E74C3C"
+                            HorizontalContentAlignment="Center"/>
+
+                    <Button Content="CO"
+                            Command="{Binding SelectSensorCommand}"
+                            CommandParameter="MQ7"
+                            Classes.active="{Binding IsMq7Selected}"
+                            FontSize="12" MinHeight="40"
+                            BorderThickness="0" CornerRadius="0"
+                            Background="Transparent"
+                            Foreground="#E67E22"
+                            HorizontalContentAlignment="Center"/>
+
+                    <Button Content="NH₃"
+                            Command="{Binding SelectSensorCommand}"
+                            CommandParameter="MQ137"
+                            Classes.active="{Binding IsMq137Selected}"
+                            FontSize="12" MinHeight="40"
+                            BorderThickness="0" CornerRadius="0"
+                            Background="Transparent"
+                            Foreground="#8E44AD"
+                            HorizontalContentAlignment="Center"/>
+
+                    <Button Content="CO₂"
+                            Command="{Binding SelectSensorCommand}"
+                            CommandParameter="CO2"
+                            Classes.active="{Binding IsCo2Selected}"
+                            FontSize="12" MinHeight="40"
+                            BorderThickness="0" CornerRadius="0"
+                            Background="Transparent"
+                            Foreground="#2980B9"
+                            HorizontalContentAlignment="Center"/>
+
+                    <Button Content="O₂"
+                            Command="{Binding SelectSensorCommand}"
+                            CommandParameter="WIN"
+                            Classes.active="{Binding IsWinSelected}"
+                            FontSize="12" MinHeight="40"
+                            BorderThickness="0" CornerRadius="0"
+                            Background="Transparent"
+                            Foreground="#27AE60"
+                            HorizontalContentAlignment="Center"/>
+
+                </UniformGrid>
+            </Border>
+
+            <!-- Single graph fills all remaining space -->
+            <Border Grid.Row="1" Padding="4" Background="White">
+                <ScottPlot:AvaPlot Name="PlotTouch" Margin="2"/>
+            </Border>
+
+        </Grid>
+
     </Grid>
 </UserControl>

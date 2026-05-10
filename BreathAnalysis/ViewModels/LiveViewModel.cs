@@ -13,6 +13,36 @@ public partial class LiveViewModel : ObservableObject
     private readonly ObservableCollection<SensorReading> _allReadings;
     private const int BufferSize = 100;
 
+    // ── Layout awareness ──────────────────────────────────────────────────
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsTouch))]
+    private bool _isDesktop = true;
+    public bool IsTouch => !IsDesktop;
+
+    // ── Touch sensor selection ────────────────────────────────────────────
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsMq138Selected))]
+    [NotifyPropertyChangedFor(nameof(IsMq7Selected))]
+    [NotifyPropertyChangedFor(nameof(IsMq137Selected))]
+    [NotifyPropertyChangedFor(nameof(IsCo2Selected))]
+    [NotifyPropertyChangedFor(nameof(IsWinSelected))]
+    private string _selectedSensor = "MQ138";
+
+    public bool IsMq138Selected => SelectedSensor == "MQ138";
+    public bool IsMq7Selected => SelectedSensor == "MQ7";
+    public bool IsMq137Selected => SelectedSensor == "MQ137";
+    public bool IsCo2Selected => SelectedSensor == "CO2";
+    public bool IsWinSelected => SelectedSensor == "WIN";
+
+    [RelayCommand]
+    public void SelectSensor(string sensor)
+    {
+        SelectedSensor = sensor;
+        TouchPlotRefreshRequested?.Invoke(sensor);
+    }
+
+    public event Action<string>? TouchPlotRefreshRequested;
+
     // ── Plot buffers ──────────────────────────────────────────────────────
     public double[] DataMq138 { get; } = new double[BufferSize];
     public double[] DataMq7 { get; } = new double[BufferSize];
